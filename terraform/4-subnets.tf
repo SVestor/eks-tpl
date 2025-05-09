@@ -14,6 +14,7 @@ resource "aws_subnet" "public" {
 
   cidr_block        = each.value.ip
   availability_zone = each.value.az
+  map_public_ip_on_launch = true
 
   vpc_id = aws_vpc.eks_vpc.id
 
