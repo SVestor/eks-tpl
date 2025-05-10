@@ -18,4 +18,4 @@ resource "aws_nat_gateway" "ngw" {
 
   depends_on = [aws_internet_gateway.igw] # to ensure that the igw is created before the ngw
 }
-  
+
