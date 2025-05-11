@@ -17,14 +17,6 @@ resource "aws_iam_role" "eks_nodes" {
   tags = local.common_tags
 }
 
-locals {
-  nodes_policies = [
-    "AmazonEKSWorkerNodePolicy",
-    "AmazonEKS_CNI_Policy",
-    "AmazonEC2ContainerRegistryReadOnly"
-  ]
-}
-
 resource "aws_iam_role_policy_attachment" "eks_worker_nodes_policies" {
   for_each   = toset(local.nodes_policies)
   role       = aws_iam_role.eks_nodes.name
@@ -70,6 +62,9 @@ resource "aws_eks_node_group" "eks_main" {
     ignore_changes = [scaling_config[0].desired_size]
   }
 
+  tags = local.common_tags
+
   depends_on = [aws_iam_role_policy_attachment.eks_worker_nodes_policies] # To avoid dependency issues
+
 }
 

@@ -38,6 +38,9 @@ resource "aws_eks_cluster" "eks" {
     bootstrap_cluster_creator_admin_permissions = true
   }
 
+  tags = local.common_tags
+
   depends_on = [aws_iam_role_policy_attachment.eks_cluster_policy]
+
 }
 

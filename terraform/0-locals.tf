@@ -41,5 +41,13 @@ locals {
   }
 }
 
+locals {
+  nodes_policies = [
+    "AmazonEKSWorkerNodePolicy",
+    "AmazonEKS_CNI_Policy",
+    "AmazonEC2ContainerRegistryReadOnly"
+  ]
+}
+
 
 
