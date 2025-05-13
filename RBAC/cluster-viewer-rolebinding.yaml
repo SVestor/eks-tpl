@@ -2,7 +2,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: cluster-viewer-role-binding
+  name: cluster-viewer-rolebinding
 roleRef:
   kind: ClusterRole
   name: cluster-viewer-role
