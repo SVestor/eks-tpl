@@ -1,6 +1,6 @@
 resource "aws_iam_group" "developers_eks" {
   name = "developers-eks"
-  path = "/users/"  # optional
+  path = "/users/" # optional
 }
 
 resource "aws_iam_user" "dev_user2_eks" {
