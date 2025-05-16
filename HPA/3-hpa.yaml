@@ -1,0 +1,47 @@
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: flask-app
+  namespace: flask-ns
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: flask-app
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 50
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 75
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 0  # No stabilization period for scale-up
+      selectPolicy: Max
+      policies:
+      - type: Pods
+        value: 4           # Maximum number of pods to scale up at once
+        periodSeconds: 60  # Within 60 seconds
+      - type: Percent
+        value: 100         # Allow scaling up by 100% (doubling the pods) at once
+        periodSeconds: 60  # Within 60 seconds
+    scaleDown:
+      stabilizationWindowSeconds: 30  # Wait 30 seconds before scaling down
+      selectPolicy: Max
+      policies:
+      - type: Pods
+        value: 2           # Maximum number of pods to scale down at once
+        periodSeconds: 60  # Within 60 seconds
+      - type: Percent
+        value: 50          # Allow scaling down by 50% at once
+        periodSeconds: 60  # Within 60 seconds          
