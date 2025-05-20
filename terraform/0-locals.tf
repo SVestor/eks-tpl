@@ -23,7 +23,7 @@ locals {
       tags = {
         Name                                                           = "${local.eks_cluster_name}-${local.env}-private-${idx}-${subnet.az}"
         "kubernetes.io/role/internal-elb"                              = "1"
-        "kubernetes.io/cluster/${local.env}-${local.eks_cluster_name}" = "owned"
+        "kubernetes.io/cluster/${local.eks_cluster_name}-${local.env}" = "owned"
       }
     }
   }
@@ -35,7 +35,7 @@ locals {
       tags = {
         Name                                                           = "${local.eks_cluster_name}-${local.env}-public-${idx}-${subnet.az}"
         "kubernetes.io/role/elb"                                       = "1"
-        "kubernetes.io/cluster/${local.env}-${local.eks_cluster_name}" = "owned"
+        "kubernetes.io/cluster/${local.eks_cluster_name}-${local.env}" = "owned"
       }
     }
   }
