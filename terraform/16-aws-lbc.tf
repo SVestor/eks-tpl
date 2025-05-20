@@ -25,7 +25,7 @@ resource "aws_iam_role" "aws_lbc" {
 resource "aws_iam_policy" "aws_lbc" {
   name = "AmazonEKSLoadBalancerControllerPolicy"
 
-  policy = file("./iam/AmazonEKSLoadBalancerControllerPolicy.json")
+  policy = file("${path.module}/iam/AmazonEKSLoadBalancerControllerPolicy.json")
 }
 
 resource "aws_iam_role_policy_attachment" "aws_lbc" {
@@ -48,7 +48,7 @@ resource "helm_release" "aws_lbc" {
   namespace  = "kube-system"
   version    = "1.13.2"
 
-   set {
+  set {
     name  = "clusterName"
     value = aws_eks_cluster.eks.name
   }
@@ -65,5 +65,5 @@ resource "helm_release" "aws_lbc" {
 
   depends_on = [aws_eks_node_group.eks_main]
 }
-  
+
 
