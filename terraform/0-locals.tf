@@ -49,5 +49,10 @@ locals {
   ]
 }
 
+locals {
+  flask_app_hostname         = "flask-app.${lookup(var.subdomain, local.env)}.${var.dns_zone_name}"
+  flask_app_ingress_alb_name = "k8s-flask-app-alb-${local.eks_cluster_name}-${local.env}"
+}
+
 
 
