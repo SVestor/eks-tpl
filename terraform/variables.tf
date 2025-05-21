@@ -23,3 +23,19 @@ variable "eks_subnets" {
     ]
   }
 }
+
+variable "dns_zone_name" {
+  description = "Domain name"
+  default     = "svestor.link"
+}
+
+variable "subdomain" {
+  description = "Subdomain for each environmemnt"
+  type        = map(string)
+
+  default = {
+    "prod"    = "api"
+    "staging" = "api.stg"
+    "dev"     = "api.dev"
+  }
+}

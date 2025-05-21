@@ -5,7 +5,7 @@ kubectl apply -f .
 
 kubectl get ingress -n flask-ns
 
-curl -i --header "Host: flask-app.svestor.link" http://k8s-flaskns-flaskapp-ed26135da8-1710070133.us-east-1.elb.amazonaws.com ; echo
+curl -i --header "Host: flask-app.api.dev.svestor.link" http://k8s-flask-app-alb-core-eks-dev-1338332633.us-east-1.elb.amazonaws.com ; echo
 ```
 ## Ingress annotations
 
