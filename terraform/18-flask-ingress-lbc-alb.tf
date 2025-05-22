@@ -12,12 +12,6 @@ resource "local_file" "flask_ingress_yaml" {
   depends_on = [helm_release.aws_lbc]
 }
 
-# Will wait 20 seconds for the ALB to be created
-resource "time_sleep" "wait_20_seconds" {
-  create_duration = "20s"
-  depends_on      = [local_file.flask_ingress_yaml]
-}
-
 # This resource is used to apply the ../awsLBcontroller_alb/* files to create the ALB ingress
 resource "null_resource" "flask_ingress_apply" {
 
@@ -25,5 +19,11 @@ resource "null_resource" "flask_ingress_apply" {
     command = "bash ${path.module}/../awsLBcontroller_alb/commands.sh"
   }
 
-  depends_on = [time_sleep.wait_20_seconds]
+  depends_on = [local_file.flask_ingress_yaml]
+}
+
+# Will wait 20 seconds for the ALB to be created
+resource "time_sleep" "wait_20_seconds" {
+  create_duration = "20s"
+  depends_on      = [null_resource.flask_ingress_apply]
 }
