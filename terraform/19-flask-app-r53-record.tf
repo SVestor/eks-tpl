@@ -3,7 +3,7 @@
 data "aws_lb" "ingress" {
   name = local.flask_app_ingress_alb_name
 
-  depends_on = [null_resource.flask_ingress_apply]
+  depends_on = [time_sleep.wait_20_seconds]
 }
 
 resource "aws_route53_record" "flask_app" {
