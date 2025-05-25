@@ -11,6 +11,18 @@ resource "helm_release" "ingress_nginx_external" {
     file("${path.module}/helm_values/ingress-nginx.yaml")
   ]
 
+  # (optional) Used for NLB proxy protocol (to get client ip)
+
+  set {
+    name  = "controller.config.use-proxy-protocol"
+    value = "true"
+  }
+
+  # set {
+  #   name  = "controller.config.use-forwarded-headers"
+  #   value = "true"
+  # }
+
   depends_on = [helm_release.aws_lbc]
 }
   
