@@ -35,7 +35,7 @@ kubectl delete -f .
 
 ## Cert-manager
 
-- [Supported configuration](https://cert-manager.io/docs/configuration/acme/http01/)
+- [Supported configuration](https://cert-manager.io/docs/configuration/acme/dns01/route53/)
 
 - [Cert-manager github](https://github.com/cert-manager/cert-manager/blob/master/deploy/charts/cert-manager/values.yaml)
 
