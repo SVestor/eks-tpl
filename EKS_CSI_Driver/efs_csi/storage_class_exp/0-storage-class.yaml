@@ -1,0 +1,13 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: efs-dynamic
+provisioner: efs.csi.aws.com
+parameters:
+  provisioningMode: efs-ap
+  fileSystemId: fs-0a1b2c3d4e5f67890
+  directoryPerms: "700"
+mountOptions:
+  - iam
+reclaimPolicy: Delete
+volumeBindingMode: Immediate
