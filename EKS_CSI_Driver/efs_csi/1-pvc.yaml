@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: test-pvc
+  namespace: test-ns
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: efs-sc
+  resources:
+    requests:
+      storage: 5Gi # Doesn't matter, EFS CSI driver will use the size of the EFS file system, it's just a placeholder
