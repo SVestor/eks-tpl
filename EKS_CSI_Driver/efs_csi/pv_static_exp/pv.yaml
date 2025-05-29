@@ -1,0 +1,32 @@
+# persistent volume
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: efs-static-pv
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: efs-static
+  csi:
+    driver: efs.csi.aws.com
+    volumeHandle: fs-xxxxxxxx::fsap-xxxxxxxxxxxxxxxxx   # <- FileSystem ID::AccessPoint ID
+    volumeAttributes:
+      path: /custom-path-for-pvc
+---
+# claim
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: efs-static-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: efs-static
+  volumeName: efs-static-pv
