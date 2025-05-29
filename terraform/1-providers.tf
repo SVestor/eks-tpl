@@ -16,6 +16,11 @@ terraform {
       version = "~> 2.17"
     }
 
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "~> 2.37"
+    }
+
     null = {
       source  = "hashicorp/null"
       version = "~> 3.2"
@@ -30,5 +35,5 @@ terraform {
 
 provider "aws" {
   region  = local.region
-  profile = "aws-general"
+  profile = "cloud-user"
 }
