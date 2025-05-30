@@ -27,3 +27,8 @@ aws eks describe-addon-versions \
   --addon-name aws-ebs-csi-driver | grep -i AddonVersion
 ```
 
+### To show logs of EKS CSI plugin
+
+```bash
+ kubectl logs -l app.kubernetes.io/instance=aws-efs-csi-driver -n kube-system -f
+```
