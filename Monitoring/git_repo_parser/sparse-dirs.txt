@@ -1,0 +1,8 @@
+# Prometheus operator components
+example/prometheus-operator-crd-full
+example/rbac/prometheus-operator-crd
+example/rbac/prometheus-operator
+
+# Prometheus components
+example/rbac/prometheus
+example/storage
