@@ -1,0 +1,39 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: main
+  namespace: monitoring
+  labels:
+    prometheus: main
+spec:
+  version: v3.4.1
+  replicas: 2
+  serviceAccountName: prometheus
+  podMonitorSelector:
+    matchLabels:
+      prometheus: main
+  podMonitorNamespaceSelector:
+    matchLabels:
+      monitoring: prometheus
+  resources:
+    requests:
+      cpu: 500m
+      memory: 2Gi
+    limits:
+      cpu: 500m
+      memory: 2Gi
+  logLevel: info
+  logFormat: logfmt
+  retention: 7d
+  scrapeInterval: 15s
+  securityContext:
+    fsGroup: 0
+    runAsNonRoot: false
+    runAsUser: 0    
+  storage:
+    volumeClaimTemplate:
+      spec:
+        storageClassName: gp3-monitoring
+        resources:
+          requests:
+            storage: 20Gi
