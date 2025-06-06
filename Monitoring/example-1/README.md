@@ -7,6 +7,16 @@ aws eks update-kubeconfig \
   --alias cloud_user@core-eks-dev \
   --name core-eks-dev
 ```
+### Deploy prometheus stack
+
+```bash
+kubectl apply -f namespace.yaml
+kubectl apply -f storage/storageclass.yaml
+kubectl apply --server-side -f prometheus-operator/crds/
+kubectl apply -f prometheus-operator/rbac/
+kubectl apply -f prometheus-operator/prometheus-operator-deployment/
+kubectl apply -f prometheus/
+```
 
 ### Check prometheus operator logs
 
