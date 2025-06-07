@@ -31,5 +31,36 @@ kubectl port-forward svc/prometheus-operated 9090:9090 -n monitoring &
 http://localhost:9090
 ```
 
+### Deploy app
+```bash
+kubectl apply -f app/deploy/
+```
 
+### Check app metrics
+```bash
+kubectl port-forward svc/myapp-prom 8081:8081 -n staging &
+http://localhost:8081
+```
+### Deploy grafana with helm example (the current deployment uses terraform helm provider)
+```bash
+helm repo add grafana https://grafana.github.io/helm-charts
+helm repo update
+helm search repo grafana
+helm show values grafana/grafana --version 9.2.1
+helm show values grafana/grafana --version 9.2.1 > grafana-values.yaml
+helm install grafana grafana/grafana --version 9.2.1 -n monitoring
+helm upgrade grafana grafana/grafana -f grafana-values.yaml -n monitoring
+```
 
+### Check grafana logs
+```bash
+kubectl logs -l app.kubernetes.io/name=grafana -n monitoring -f
+```
+```bash
+kubectl port-forward svc/grafana 3000:80 -n monitoring &
+```
+
+### Check grafana dashboard
+```bash
+http://localhost:3000
+```
