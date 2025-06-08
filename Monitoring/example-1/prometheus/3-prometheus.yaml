@@ -6,6 +6,17 @@ metadata:
   labels:
     prometheus: main
 spec:
+  alerting:
+    alertmanagers:
+      - namespace: monitoring
+        name: alertmanager-operated # Alertmanager service name
+        port: web
+  ruleSelector:
+    matchLabels:
+      prometheus: main
+  ruleNamespaceSelector:
+    matchLabels:
+      monitoring: prometheus
   version: v3.4.1
   replicas: 2
   serviceAccountName: prometheus
