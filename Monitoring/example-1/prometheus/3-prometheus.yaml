@@ -20,7 +20,16 @@ spec:
       prometheus: main
   serviceMonitorNamespaceSelector:
     matchLabels:
-      monitoring: prometheus  
+      monitoring: prometheus    
+  probeSelector:
+    matchLabels:
+      prometheus: main
+  probeNamespaceSelector:
+    matchLabels:
+      monitoring: prometheus    
+  additionalScrapeConfigs:
+    name: additional-scrape-configs
+    key: prometheus-ec2.yaml
   resources:
     requests:
       cpu: 500m
