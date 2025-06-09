@@ -7,6 +7,20 @@ resource "kubernetes_namespace" "monitoring" {
   }
 }
 
+resource "kubernetes_secret_v1" "grafana" {
+  metadata {
+    name      = "grafana"
+    namespace = "monitoring"
+  }
+
+  data = {
+    username = var.grafana_admin_user
+    password = var.grafana_admin_password
+  }
+
+  type = "kubernetes.io/basic-auth"
+}
+
 resource "helm_release" "grafana" {
   name = "grafana"
 
@@ -43,5 +57,8 @@ resource "helm_release" "grafana" {
     value = "8Gi"
   }
 
-  depends_on = [kubernetes_storage_class_v1.gp3_monitoring]
+  depends_on = [
+    kubernetes_storage_class_v1.gp3_monitoring,
+    kubernetes_secret_v1.grafana
+  ]
 }

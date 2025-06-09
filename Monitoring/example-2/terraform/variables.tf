@@ -39,3 +39,16 @@ variable "subdomain" {
     "dev"     = "api.dev"
   }
 }
+
+variable "grafana_admin_user" {
+  description = "Grafana admin user"
+  type        = string
+  default     = "superadmin"
+}
+
+variable "grafana_admin_password" {
+  description = "Grafana admin password"
+  type        = string
+  default     = "MySuperSecretPassword"
+  sensitive   = true
+}
