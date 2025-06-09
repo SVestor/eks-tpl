@@ -14,11 +14,11 @@ resource "kubernetes_secret_v1" "grafana" {
   }
 
   data = {
-    username = var.grafana_admin_user
-    password = var.grafana_admin_password
+    admin-user     = var.grafana_admin_user
+    admin-password = var.grafana_admin_password
   }
 
-  type = "kubernetes.io/basic-auth"
+  type = "Opaque"
 }
 
 resource "helm_release" "grafana" {
