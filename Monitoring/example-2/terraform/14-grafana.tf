@@ -7,10 +7,19 @@ resource "kubernetes_namespace" "monitoring" {
   }
 }
 
+resource "kubernetes_namespace" "grafana" {
+  metadata {
+    name = "grafana"
+    labels = {
+      monitoring = "grafana"
+    }
+  }
+}
+
 resource "kubernetes_secret_v1" "grafana" {
   metadata {
     name      = "grafana"
-    namespace = "monitoring"
+    namespace = "grafana"
   }
 
   data = {
@@ -26,7 +35,7 @@ resource "helm_release" "grafana" {
 
   repository = "https://grafana.github.io/helm-charts"
   chart      = "grafana"
-  namespace  = "monitoring"
+  namespace  = "grafana"
   version    = "9.2.2"
 
   set {
