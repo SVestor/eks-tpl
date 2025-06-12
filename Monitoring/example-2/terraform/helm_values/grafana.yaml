@@ -1,0 +1,9 @@
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: prometheus-main
+        type: prometheus
+        url: http://prometheus-operated.monitoring:9090
+        access: proxy
+        isDefault: true
