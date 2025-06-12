@@ -66,6 +66,10 @@ resource "helm_release" "grafana" {
     value = "8Gi"
   }
 
+  values = [
+    file("${path.module}/helm_values/grafana.yaml")
+  ]
+
   depends_on = [
     kubernetes_storage_class_v1.gp3_monitoring,
     kubernetes_secret_v1.grafana
