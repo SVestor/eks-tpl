@@ -75,3 +75,21 @@ resource "helm_release" "grafana" {
     kubernetes_secret_v1.grafana
   ]
 }
+
+resource "kubernetes_config_map_v1" "grafana_dashboard_prometheus" {
+  metadata {
+    name      = "grafana-dashboard-prometheus"
+    namespace = "grafana"
+    labels = {
+      grafana_dashboard = "1" # This label enables auto-loading
+    }
+  }
+
+  data = {
+    "prometheus-dashboard.json" = file("${path.module}/../grafana/dashboards/prometheus-dashboard.json")
+  }
+
+  depends_on = [
+    helm_release.grafana
+  ]
+}
