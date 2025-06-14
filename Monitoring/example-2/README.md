@@ -44,7 +44,7 @@ kubectl port-forward svc/myapp-prom 8081:8081 -n staging &
 http://localhost:8081
 ```
 
-### Deploy SeriviceMonitor
+### Deploy kubelet SeriviceMonitor
 ```bash
 kubectl apply -f kubelet-service-monitor/service-monitor.yaml
 ```
@@ -82,4 +82,8 @@ dd if=/dev/zero of=/prometheus/test.file bs=1G count=10
 kubectl exec -it prometheus-main-1 -n monitoring  -- sh 
 dd if=/dev/zero of=/prometheus/test.file bs=1G count=5
 ```
-
+### Testing kube-state-metrics
+```bash
+kubectl apply -f kube-state-metrics/
+kubectl apply -f test-pvc.yaml
+```
