@@ -7,7 +7,7 @@ metadata:
     grafana_dashboard: "1"  # This label enables auto-loading
 data:
   prometheus-dashboard.json: |
-    {
+    { 
       "title": "Prometheus Volumes",
       "uid": "28fc27c1-d54b-42c5-be73-39fb141dc25f",
       "annotations": {
@@ -75,6 +75,272 @@ data:
                   "mode": "off"
                 }
               },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 0
+          },
+          "id": 5,
+          "options": {
+            "legend": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "displayMode": "table",
+              "placement": "right",
+              "showLegend": true
+            },
+            "tooltip": {
+              "hideZeros": false,
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "12.0.1",
+          "targets": [
+            {
+              "editorMode": "code",
+              "expr": "kube_persistentvolume_status_phase{phase=\"Pending\"} == 1",
+              "legendFormat": "{{phase}}-{{persistentvolume}}",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "P3CCD15422F6EB158"
+              },
+              "editorMode": "code",
+              "expr": "kube_persistentvolume_status_phase{phase=\"Available\"} == 1",
+              "hide": false,
+              "instant": false,
+              "legendFormat": "{{phase}}-{{persistentvolume}}",
+              "range": true,
+              "refId": "B"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "P3CCD15422F6EB158"
+              },
+              "editorMode": "code",
+              "expr": "kube_persistentvolume_status_phase{phase=\"Bound\"} == 1",
+              "hide": false,
+              "instant": false,
+              "legendFormat": "{{phase}}-{{persistentvolume}}",
+              "range": true,
+              "refId": "C"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "P3CCD15422F6EB158"
+              },
+              "editorMode": "code",
+              "expr": "kube_persistentvolume_status_phase{phase=\"Released\"} == 1",
+              "hide": false,
+              "instant": false,
+              "legendFormat": "{{phase}}-{{persistentvolume}}",
+              "range": true,
+              "refId": "D"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "P3CCD15422F6EB158"
+              },
+              "editorMode": "code",
+              "expr": "kube_persistentvolume_status_phase{phase=\"Failed\"} == 1",
+              "hide": false,
+              "instant": false,
+              "legendFormat": "{{phase}}-{{persistentvolume}}",
+              "range": true,
+              "refId": "E"
+            }
+          ],
+          "title": "Persistent Volume Status by Phase",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P3CCD15422F6EB158"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green"
+                  },
+                  {
+                    "color": "red",
+                    "value": 80
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 8
+          },
+          "id": 4,
+          "options": {
+            "legend": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "displayMode": "table",
+              "placement": "right",
+              "showLegend": true
+            },
+            "tooltip": {
+              "hideZeros": false,
+              "mode": "single",
+              "sort": "none"
+            }
+          },
+          "pluginVersion": "12.0.1",
+          "targets": [
+            {
+              "editorMode": "code",
+              "expr": "kube_persistentvolumeclaim_status_phase{phase=\"Pending\"} == 1",
+              "legendFormat": "{{phase}}-{{persistentvolumeclaim}}-{{exported_namespace}}",
+              "range": true,
+              "refId": "A"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "P3CCD15422F6EB158"
+              },
+              "editorMode": "code",
+              "expr": "kube_persistentvolumeclaim_status_phase{phase=\"Lost\"} == 1",
+              "hide": false,
+              "instant": false,
+              "legendFormat": "{{phase}}-{{persistentvolumeclaim}}-{{exported_namespace}}",
+              "range": true,
+              "refId": "B"
+            },
+            {
+              "datasource": {
+                "type": "prometheus",
+                "uid": "P3CCD15422F6EB158"
+              },
+              "editorMode": "code",
+              "expr": "kube_persistentvolumeclaim_status_phase{phase=\"Bound\"} == 1",
+              "hide": false,
+              "instant": false,
+              "legendFormat": "{{phase}}-{{persistentvolumeclaim}}-{{exported_namespace}}",
+              "range": true,
+              "refId": "C"
+            }
+          ],
+          "title": "Persistent Volume Claim Status by Phase",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "P3CCD15422F6EB158"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "",
+                "axisPlacement": "auto",
+                "barAlignment": 0,
+                "barWidthFactor": 0.6,
+                "drawStyle": "line",
+                "fillOpacity": 0,
+                "gradientMode": "none",
+                "hideFrom": {
+                  "legend": false,
+                  "tooltip": false,
+                  "viz": false
+                },
+                "insertNulls": false,
+                "lineInterpolation": "linear",
+                "lineWidth": 1,
+                "pointSize": 5,
+                "scaleDistribution": {
+                  "type": "linear"
+                },
+                "showPoints": "auto",
+                "spanNulls": false,
+                "stacking": {
+                  "group": "A",
+                  "mode": "none"
+                },
+                "thresholdsStyle": {
+                  "mode": "off"
+                }
+              },
               "decimals": 1,
               "mappings": [],
               "thresholds": {
@@ -97,7 +363,7 @@ data:
             "h": 9,
             "w": 24,
             "x": 0,
-            "y": 0
+            "y": 16
           },
           "id": 3,
           "options": {
@@ -193,7 +459,7 @@ data:
             "h": 9,
             "w": 24,
             "x": 0,
-            "y": 9
+            "y": 25
           },
           "id": 2,
           "options": {
@@ -289,7 +555,7 @@ data:
             "h": 11,
             "w": 24,
             "x": 0,
-            "y": 18
+            "y": 34
           },
           "id": 1,
           "options": {
@@ -363,6 +629,3 @@ data:
       "timezone": "browser",
       "version": 4
     }
-
-      
-    
