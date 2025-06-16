@@ -108,7 +108,7 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "kube_persistentvolume_status_phase{phase=\"Pending\"} == 1",
+          "expr": "sum(kube_persistentvolume_status_phase{phase=\"Pending\"} == 1) by (phase,persistentvolume)",
           "legendFormat": "{{phase}}-{{persistentvolume}}",
           "range": true,
           "refId": "A"
@@ -119,7 +119,7 @@
             "uid": "P3CCD15422F6EB158"
           },
           "editorMode": "code",
-          "expr": "kube_persistentvolume_status_phase{phase=\"Available\"} == 1",
+          "expr": "sum(kube_persistentvolume_status_phase{phase=\"Available\"} == 1) by (phase,persistentvolume)",
           "hide": false,
           "instant": false,
           "legendFormat": "{{phase}}-{{persistentvolume}}",
@@ -132,7 +132,7 @@
             "uid": "P3CCD15422F6EB158"
           },
           "editorMode": "code",
-          "expr": "kube_persistentvolume_status_phase{phase=\"Bound\"} == 1",
+          "expr": "sum(kube_persistentvolume_status_phase{phase=\"Bound\"} == 1) by (phase,persistentvolume)",
           "hide": false,
           "instant": false,
           "legendFormat": "{{phase}}-{{persistentvolume}}",
@@ -145,7 +145,7 @@
             "uid": "P3CCD15422F6EB158"
           },
           "editorMode": "code",
-          "expr": "kube_persistentvolume_status_phase{phase=\"Released\"} == 1",
+          "expr": "sum(kube_persistentvolume_status_phase{phase=\"Released\"} == 1) by (phase,persistentvolume)",
           "hide": false,
           "instant": false,
           "legendFormat": "{{phase}}-{{persistentvolume}}",
@@ -158,7 +158,7 @@
             "uid": "P3CCD15422F6EB158"
           },
           "editorMode": "code",
-          "expr": "kube_persistentvolume_status_phase{phase=\"Failed\"} == 1",
+          "expr": "sum(kube_persistentvolume_status_phase{phase=\"Failed\"} == 1) by (phase,persistentvolume)",
           "hide": false,
           "instant": false,
           "legendFormat": "{{phase}}-{{persistentvolume}}",
@@ -254,9 +254,12 @@
       "targets": [
         {
           "editorMode": "code",
-          "expr": "kube_persistentvolumeclaim_status_phase{phase=\"Pending\"} == 1",
+          "exemplar": false,
+          "expr": "sum(kube_persistentvolumeclaim_status_phase{phase=\"Pending\"} == 1) by (phase,persistentvolumeclaim,exported_namespace)",
+          "instant": true,
+          "interval": "",
           "legendFormat": "{{phase}}-{{persistentvolumeclaim}}-{{exported_namespace}}",
-          "range": true,
+          "range": false,
           "refId": "A"
         },
         {
@@ -265,11 +268,12 @@
             "uid": "P3CCD15422F6EB158"
           },
           "editorMode": "code",
-          "expr": "kube_persistentvolumeclaim_status_phase{phase=\"Lost\"} == 1",
+          "exemplar": false,
+          "expr": "sum(kube_persistentvolumeclaim_status_phase{phase=\"Lost\"} == 1) by (phase,persistentvolumeclaim,exported_namespace)",
           "hide": false,
-          "instant": false,
+          "instant": true,
           "legendFormat": "{{phase}}-{{persistentvolumeclaim}}-{{exported_namespace}}",
-          "range": true,
+          "range": false,
           "refId": "B"
         },
         {
@@ -278,11 +282,12 @@
             "uid": "P3CCD15422F6EB158"
           },
           "editorMode": "code",
-          "expr": "kube_persistentvolumeclaim_status_phase{phase=\"Bound\"} == 1",
+          "exemplar": false,
+          "expr": "sum(kube_persistentvolumeclaim_status_phase{phase=\"Bound\"} == 1) by (phase,persistentvolumeclaim,exported_namespace)\n",
           "hide": false,
-          "instant": false,
+          "instant": true,
           "legendFormat": "{{phase}}-{{persistentvolumeclaim}}-{{exported_namespace}}",
-          "range": true,
+          "range": false,
           "refId": "C"
         }
       ],
@@ -618,5 +623,5 @@
   },
   "timepicker": {},
   "timezone": "browser",
-  "version": 4
+  "version": 3
 }
