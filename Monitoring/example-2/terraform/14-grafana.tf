@@ -86,7 +86,8 @@ resource "kubernetes_config_map_v1" "grafana_dashboard_prometheus" {
   }
 
   data = {
-    "prometheus-dashboard.json" = file("${path.module}/../grafana/dashboards/prometheus-dashboard.json")
+    "volumes-usage.json" = file("${path.module}/../grafana/dashboards/volumes-usage.json")
+    "cpus-usage.json"    = file("${path.module}/../grafana/dashboards/cpus-usage.json")
   }
 
   depends_on = [
