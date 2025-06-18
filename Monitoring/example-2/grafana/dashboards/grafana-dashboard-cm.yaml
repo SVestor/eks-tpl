@@ -6,9 +6,9 @@ metadata:
   labels:
     grafana_dashboard: "1"  # This label enables auto-loading
 data:
-  prometheus-dashboard.json: |
+  volumes-usage.json: |
     { 
-      "title": "Prometheus Volumes",
+      "title": "Volumes Usage",
       "uid": "28fc27c1-d54b-42c5-be73-39fb141dc25f",
       "annotations": {
         "list": [
