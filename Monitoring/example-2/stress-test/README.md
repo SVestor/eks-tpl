@@ -7,7 +7,7 @@
 ```bash
 kubectl apply -f ubuntu-pod.yaml
 ```
-### Make a test
+### Make a stress cpu and memory tests
 ```bash
 kubectl exec -it ubuntu-pod-1 -- bash
 kubectl exec -it ubuntu-pod-2 -- bash
@@ -22,5 +22,19 @@ stress --vm 1 --vm-bytes 800M --vm-keep --timeout 300s
 # In ubuntu-pod-2
 stress --cpu 1 --timeout 300s
 stress --vm 1 --vm-bytes 800M --vm-keep --timeout 300s
+```
+### Make a network test
+```bash
+kubectl exec -it ubuntu-pod-1 -- bash
+kubectl exec -it ubuntu-pod-2 -- bash
+
+# Download iperf3 utility
+apt update && apt install -y iperf3
+
+# In ubuntu-pod-1
+iperf3 --server
+
+# In ubuntu-pod-2
+iperf3 --client ubuntu-pod-1_ip-address --bidir --time 300
 ```
 
