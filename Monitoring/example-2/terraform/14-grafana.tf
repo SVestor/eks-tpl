@@ -89,6 +89,7 @@ resource "kubernetes_config_map_v1" "grafana_dashboard_prometheus" {
     "volumes-usage.json" = file("${path.module}/../grafana/dashboards/volumes-usage.json")
     "cpus-usage.json"    = file("${path.module}/../grafana/dashboards/cpus-usage.json")
     "memory-usage.json"  = file("${path.module}/../grafana/dashboards/memory-usage.json")
+    "network-usage.json" = file("${path.module}/../grafana/dashboards/network-usage.json")
   }
 
   depends_on = [
