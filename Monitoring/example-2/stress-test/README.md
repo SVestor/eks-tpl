@@ -17,8 +17,10 @@ apt update && apt install -y stress
 
 # In ubuntu-pod-1
 stress --cpu 1 --timeout 300s
+stress --vm 1 --vm-bytes 800M --vm-keep --timeout 300s
 
 # In ubuntu-pod-2
 stress --cpu 1 --timeout 300s
+stress --vm 1 --vm-bytes 800M --vm-keep --timeout 300s
 ```
 
