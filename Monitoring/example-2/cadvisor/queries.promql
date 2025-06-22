@@ -1,0 +1,174 @@
+# CPU Usage in % of Limits
+sum(
+  rate(container_cpu_usage_seconds_total{
+    container_label_io_kubernetes_pod_namespace=~"$namespace",
+    image!="",
+    container_label_io_cri_containerd_kind="container"
+  }[1m])
+)
+by (container_label_io_kubernetes_pod_name, container_label_io_kubernetes_container_name)
+/
+sum(
+  container_spec_cpu_quota{
+    container_label_io_kubernetes_pod_namespace=~"$namespace",
+    image!="",
+    container_label_io_cri_containerd_kind="container"
+  }
+  /
+  container_spec_cpu_period{
+    container_label_io_kubernetes_pod_namespace=~"$namespace",
+    image!="",
+    container_label_io_cri_containerd_kind="container"
+  }
+)
+by (container_label_io_kubernetes_pod_name, container_label_io_kubernetes_container_name)
+
+# Legend {{container_label_io_kubernetes_container_name}} in {{container_label_io_kubernetes_pod_name}}
+
+# CPU Throttling
+rate(
+  container_cpu_cfs_throttled_seconds_total
+  {
+    container_label_io_kubernetes_pod_namespace=~"$namespace",
+    image!="",
+    container_label_io_cri_containerd_kind="container"
+  }[1m])
+
+# Legend {{container_label_io_kubernetes_container_name}} in {{container_label_io_kubernetes_pod_name}}
+
+# CPU Usage in Cores with Requests and Limits
+sum(
+  rate(
+    container_cpu_usage_seconds_total
+    {
+       container_label_io_kubernetes_pod_name=~"$pod",
+       container_label_io_kubernetes_container_name=~"$container",
+       container_label_io_kubernetes_pod_namespace=~"$namespace",
+       image!="",
+       container_label_io_cri_containerd_kind="container"
+    }[1m]
+  )
+)
+by (container_label_io_kubernetes_pod_name,container_label_io_kubernetes_container_name)
+
+# Legend {{container_label_io_kubernetes_container_name}} in {{container_label_io_kubernetes_pod_name}}
+
+avg(
+  kube_pod_container_resource_limits
+  {
+      exported_pod=~"$pod",
+      exported_namespace=~"$namespace",
+      exported_container=~"$container",
+      unit="core"
+  }
+)
+
+# Legend Limit
+
+avg(
+  kube_pod_container_resource_requests
+  {
+      exported_pod=~"$pod",
+      exported_namespace=~"$namespace",
+      exported_container=~"$container",
+      unit="core"
+  }
+)
+
+# Legend Request
+
+Memory Usage in % of the Limit
+
+container_memory_working_set_bytes
+{
+  container_label_io_kubernetes_pod_namespace=~"$namespace",
+  container_label_io_kubernetes_pod_name=~"$pod",
+  container_label_io_kubernetes_container_name=~"$container",
+  container_label_io_cri_containerd_kind="container"
+} /
+container_spec_memory_limit_bytes
+{
+  container_label_io_kubernetes_pod_namespace=~"$namespace",
+  container_label_io_kubernetes_pod_name=~"$pod",
+  container_label_io_kubernetes_container_name=~"$container",
+  container_label_io_cri_containerd_kind="container"
+}
+
+# Legend {{container_label_io_kubernetes_container_name}} in {{container_label_io_kubernetes_pod_name}}
+
+Memory Usage in Bytes with Requests and Limits
+
+container_memory_working_set_bytes
+{
+  container_label_io_kubernetes_pod_namespace=~"$namespace",
+  container_label_io_kubernetes_pod_name=~"$pod",
+  container_label_io_kubernetes_container_name=~"$container",
+  container_label_io_cri_containerd_kind="container"
+}
+
+# Legend {{container_label_io_kubernetes_container_name}} in {{container_label_io_kubernetes_pod_name}}
+
+kube_pod_container_resource_limits
+  {
+      exported_pod=~"$pod",
+      exported_namespace=~"$namespace",
+      exported_container=~"$container",
+      unit="byte"
+  }
+
+# Legend Limit
+
+kube_pod_container_resource_requests
+  {
+      exported_pod=~"$pod",
+      exported_namespace=~"$namespace",
+      exported_container=~"$container",
+      unit="byte"
+  }
+
+# Legend Request
+
+
+Network I/O pressure
+
+irate(
+    container_network_receive_bytes_total
+    {
+        container_label_io_kubernetes_pod_namespace=~"$namespace",
+        container_label_io_kubernetes_pod_name=~"$pod"
+    }[1m]) * 8
+
+# Legend Receive - {{container_label_io_kubernetes_pod_name}}
+
+irate(
+    container_network_transmit_bytes_total
+    {
+        container_label_io_kubernetes_pod_namespace=~"$namespace",
+        container_label_io_kubernetes_pod_name=~"$pod"
+    }[1m]) * 8
+
+# Legend Transmit - {{container_label_io_kubernetes_pod_name}}
+
+Packet Dropped Rate
+
+irate(
+    container_network_receive_packets_dropped_total
+    {
+        container_label_io_kubernetes_pod_namespace=~"$namespace",
+        container_label_io_kubernetes_pod_name=~"$pod"
+    }[1m]
+)
+
+# Legend Receive - {{container_label_io_kubernetes_pod_name}}
+
+irate(
+    container_network_transmit_packets_dropped_total
+    {
+        container_label_io_kubernetes_pod_namespace=~"$namespace",
+        container_label_io_kubernetes_pod_name=~"$pod"
+    }[1m]
+)
+
+# Legend Transmit - {{container_label_io_kubernetes_pod_name}}
+
+
