@@ -1,0 +1,25 @@
+sum(
+  rate(container_cpu_usage_seconds_total{
+    namespace=~"$namespace",
+    image!="",
+    container!=""
+  }[1m])
+)
+by (pod, container, namespace)
+/
+sum(
+  container_spec_cpu_quota{
+    namespace=~"$namespace",
+    image!="",
+    container!=""
+  }
+  /
+  container_spec_cpu_period{
+    namespace=~"$namespace",
+    image!="",
+    container!=""
+  }
+)
+by (pod, container, namespace)
+
+# Legend {{container}} in {{pod}}
