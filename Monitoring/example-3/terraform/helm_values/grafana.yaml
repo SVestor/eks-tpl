@@ -1,0 +1,28 @@
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: EKS-Metrics
+        type: prometheus
+        uid: P3CCD15422F6EB158
+        url: http://prometheus-operated.monitoring:9090
+        access: proxy
+        isDefault: true
+
+# This tells Grafana to automatically scan all ConfigMaps with the label grafana_dashboard=1
+# During deployment the dashboard will appear automatically in the Grafana UI
+# The advantage is that it is easy to maintain in Git and can be updated separately
+sidecar:
+  dashboards:
+    enabled: true
+    label: grafana_dashboard
+    labelValue: "1"
+
+resources:
+  requests:
+    cpu: 500m
+    memory: 500Mi
+  limits:
+    cpu: 1
+    memory: 1Gi
+
