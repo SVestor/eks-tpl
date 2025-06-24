@@ -1,0 +1,25 @@
+# Go specific
+*.log
+*.out
+*.test
+*.exe
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+
+# Git
+.git/
+.gitignore
+
+# Binaries
+/app
+/app-server
+/app-client
+main
+bin/
+
+# Node / Frontend junk
+node_modules/
+dist/
