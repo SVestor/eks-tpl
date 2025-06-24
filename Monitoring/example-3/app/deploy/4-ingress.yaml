@@ -1,0 +1,26 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gin-api
+  namespace: staging
+  annotations:
+    cert-manager.io/cluster-issuer: dns01-prod
+spec:
+  ingressClassName: external-nginx
+  rules:
+    - host: api.svestor.link
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: gin-server
+                port:
+                  number: 8080
+  tls:
+    - hosts:
+        - api.svestor.link
+      secretName: api-svestor-link-tls
+    
