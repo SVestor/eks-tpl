@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -8,9 +9,14 @@ import (
 	"time"
 )
 
+// This variable is set during build through -ldflags
+var Version = "latest"
+
 var sleepDuration time.Duration
 
 func main() {
+	fmt.Println("🚀 App version:", Version)
+
 	// Get sleep duration from environment variable (in ms) to simulate delay between requests
 	// Default to 0 if not set
 	sleepMsStr := os.Getenv("SLEEP_MS")
