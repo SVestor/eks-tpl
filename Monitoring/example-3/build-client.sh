@@ -16,7 +16,7 @@ IMAGE="svestor/app-client:${VERSION}"
 echo -e "${YELLOW}🚀 Starting Docker build for image: ${IMAGE}${NC}"
 
 # --- Build image ---
-if docker build -t "$IMAGE" -f app/client/Dockerfile --platform linux/amd64 app/client; then
+if docker build -t "$IMAGE" -f app/client/Dockerfile --platform linux/amd64 app/client/; then
   echo -e "${GREEN}✅ Build succeeded for ${IMAGE}${NC}"
 else
   echo -e "${RED}❌ Build failed. Exiting.${NC}"
