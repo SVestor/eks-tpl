@@ -96,3 +96,22 @@ resource "kubernetes_config_map_v1" "grafana_dashboard_prometheus" {
     helm_release.grafana
   ]
 }
+
+resource "kubernetes_config_map_v1" "golden_signals_dashboard" {
+  metadata {
+    name      = "golden-signals-dashboard"
+    namespace = "grafana"
+    labels = {
+      grafana_dashboard = "1" # This label enables auto-loading
+    }
+  }
+
+  data = {
+    "http-rest-api.json" = file("${path.module}/../grafana/dashboards/golden_signals/http-rest-api.json")
+    "saturation.json"    = file("${path.module}/../grafana/dashboards/golden_signals/saturation.json")
+  }
+
+  depends_on = [
+    helm_release.grafana
+  ]
+}
