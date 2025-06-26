@@ -1,0 +1,207 @@
+{
+    "apiVersion": 1,
+    "groups": [
+        {
+            "orgId": 1,
+            "name": "volume_evaluation_group",
+            "folder": "alerts/volume_usage",
+            "interval": "1m",
+            "rules": [
+                {
+                    "uid": "eeoyayvqztp8gc",
+                    "title": "Persistent Volume Usage per Namespace (monitoring)",
+                    "condition": "C",
+                    "data": [
+                        {
+                            "refId": "A",
+                            "relativeTimeRange": {
+                                "from": 1800,
+                                "to": 0
+                            },
+                            "datasourceUid": "P3CCD15422F6EB158",
+                            "model": {
+                                "adhocFilters": [],
+                                "datasource": {
+                                    "type": "prometheus",
+                                    "uid": "P3CCD15422F6EB158"
+                                },
+                                "editorMode": "code",
+                                "expr": "kubelet_volume_stats_used_bytes{namespace=~\"monitoring\"} / kubelet_volume_stats_capacity_bytes{namespace=~\"monitoring\"}",
+                                "instant": true,
+                                "interval": "",
+                                "intervalMs": 15000,
+                                "legendFormat": "{{persistentvolumeclaim}}",
+                                "maxDataPoints": 43200,
+                                "range": false,
+                                "refId": "A"
+                            }
+                        },
+                        {
+                            "refId": "C",
+                            "relativeTimeRange": {
+                                "from": 0,
+                                "to": 0
+                            },
+                            "datasourceUid": "__expr__",
+                            "model": {
+                                "conditions": [
+                                    {
+                                        "evaluator": {
+                                            "params": [
+                                                0.81
+                                            ],
+                                            "type": "gte"
+                                        },
+                                        "operator": {
+                                            "type": "and"
+                                        },
+                                        "query": {
+                                            "params": [
+                                                "C"
+                                            ]
+                                        },
+                                        "reducer": {
+                                            "params": [],
+                                            "type": "last"
+                                        },
+                                        "type": "query"
+                                    }
+                                ],
+                                "datasource": {
+                                    "type": "__expr__",
+                                    "uid": "__expr__"
+                                },
+                                "expression": "A",
+                                "intervalMs": 1000,
+                                "maxDataPoints": 43200,
+                                "refId": "C",
+                                "type": "threshold"
+                            }
+                        }
+                    ],
+                    "dashboardUid": "28fc27c1-d54b-42c5-be73-39fb141dc25f",
+                    "panelId": 3,
+                    "noDataState": "NoData",
+                    "execErrState": "Error",
+                    "for": "3m",
+                    "keepFiringFor": "5m",
+                    "annotations": {
+                        "__dashboardUid__": "28fc27c1-d54b-42c5-be73-39fb141dc25f",
+                        "__panelId__": "3",
+                        "description": "The volume capacity evaluation",
+                        "summary": "The volume capacity is 81% or  higher!"
+                    },
+                    "labels": {
+                        "namespace": "monitoring",
+                        "pv": "usage",
+                        "pvc": "usage",
+                        "volume": "usage"
+                    },
+                    "isPaused": false,
+                    "notification_settings": {
+                        "receiver": "slack-message",
+                        "group_interval": "3m",
+                        "repeat_interval": "30m"
+                    }
+                },
+                {
+                    "uid": "eeoyb47ajiwhse",
+                    "title": "Persistent Volume Usage per Namespace (grafana)",
+                    "condition": "C",
+                    "data": [
+                        {
+                            "refId": "A",
+                            "relativeTimeRange": {
+                                "from": 1800,
+                                "to": 0
+                            },
+                            "datasourceUid": "P3CCD15422F6EB158",
+                            "model": {
+                                "adhocFilters": [],
+                                "datasource": {
+                                    "type": "prometheus",
+                                    "uid": "P3CCD15422F6EB158"
+                                },
+                                "editorMode": "code",
+                                "expr": "kubelet_volume_stats_used_bytes{namespace=~\"grafana\"} / kubelet_volume_stats_capacity_bytes{namespace=~\"grafana\"}",
+                                "instant": true,
+                                "interval": "",
+                                "intervalMs": 15000,
+                                "legendFormat": "{{persistentvolumeclaim}}",
+                                "maxDataPoints": 43200,
+                                "range": false,
+                                "refId": "A"
+                            }
+                        },
+                        {
+                            "refId": "C",
+                            "relativeTimeRange": {
+                                "from": 0,
+                                "to": 0
+                            },
+                            "datasourceUid": "__expr__",
+                            "model": {
+                                "conditions": [
+                                    {
+                                        "evaluator": {
+                                            "params": [
+                                                0.81
+                                            ],
+                                            "type": "gte"
+                                        },
+                                        "operator": {
+                                            "type": "and"
+                                        },
+                                        "query": {
+                                            "params": [
+                                                "C"
+                                            ]
+                                        },
+                                        "reducer": {
+                                            "params": [],
+                                            "type": "last"
+                                        },
+                                        "type": "query"
+                                    }
+                                ],
+                                "datasource": {
+                                    "type": "__expr__",
+                                    "uid": "__expr__"
+                                },
+                                "expression": "A",
+                                "intervalMs": 1000,
+                                "maxDataPoints": 43200,
+                                "refId": "C",
+                                "type": "threshold"
+                            }
+                        }
+                    ],
+                    "dashboardUid": "28fc27c1-d54b-42c5-be73-39fb141dc25f",
+                    "panelId": 3,
+                    "noDataState": "NoData",
+                    "execErrState": "Error",
+                    "for": "3m",
+                    "keepFiringFor": "5m",
+                    "annotations": {
+                        "__dashboardUid__": "28fc27c1-d54b-42c5-be73-39fb141dc25f",
+                        "__panelId__": "3",
+                        "description": "The volume capacity evaluation",
+                        "summary": "The volume capacity is 81% or  higher!"
+                    },
+                    "labels": {
+                        "namespace": "grafana",
+                        "pv": "usage",
+                        "pvc": "usage",
+                        "volume": "usage"
+                    },
+                    "isPaused": false,
+                    "notification_settings": {
+                        "receiver": "slack-message",
+                        "group_interval": "3m",
+                        "repeat_interval": "30m"
+                    }
+                }
+            ]
+        }
+    ]
+}

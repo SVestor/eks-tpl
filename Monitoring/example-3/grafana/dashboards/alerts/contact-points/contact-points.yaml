@@ -1,0 +1,28 @@
+apiVersion: 1
+contactPoints:
+    - orgId: 1
+      name: email receiver
+      receivers:
+        - uid: ""
+          type: email
+          settings:
+            addresses: <example@email.com>
+          disableResolveMessage: false
+    - orgId: 1
+      name: slack-message
+      receivers:
+        - uid: feouwkbd4zf9cc
+          type: slack
+          settings:
+            recipient: '#alerts-prod'
+            url: https://hooks.slack.com/services/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
+          disableResolveMessage: false
+    - orgId: 1
+      name: system-operations-team
+      receivers:
+        - uid: beouwqywgg8owf
+          type: email
+          settings:
+            addresses: cloud@svestor.link
+            singleEmail: false
+          disableResolveMessage: false
