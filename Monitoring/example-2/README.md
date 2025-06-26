@@ -1,4 +1,4 @@
-## Monitoring Persistent Volume usage with Prometheus and Grafana
+## Monitoring Persistent Volumes, CPUs, Memory, Network usage with Prometheus and Grafana
 
 ### Update kubeconfig
 
