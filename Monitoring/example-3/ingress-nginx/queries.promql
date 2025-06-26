@@ -1,0 +1,66 @@
+# Latency
+histogram_quantile(
+    0.99, sum(
+        rate(
+            nginx_ingress_controller_request_duration_seconds_bucket
+            {
+                ingress=~"$ingress",
+                status=~"$status",
+                method=~"$method"
+            }[1m])) by (le, ingress)
+)
+# P99
+
+histogram_quantile(
+    0.90, sum(
+        rate(
+            nginx_ingress_controller_request_duration_seconds_bucket
+            {
+                ingress=~"$ingress",
+                status=~"$status",
+                method=~"$method"
+            }[1m])) by (le, ingress)
+)
+# P90
+
+histogram_quantile(
+    0.50, sum(
+        rate(
+            nginx_ingress_controller_request_duration_seconds_bucket
+            {
+                ingress=~"$ingress",
+                status=~"$status",
+                method=~"$method"
+            }[1m])) by (le, ingress)
+)
+# P50
+
+# Traffic
+round(
+    sum(
+        irate(
+            nginx_ingress_controller_requests
+            {
+                ingress=~"$ingress"
+            }[1m]
+            )
+
+        ) by (ingress), 0.001
+)
+# Traffic
+
+# Availability(non-4|5xx responses)
+sum(
+    rate(
+        nginx_ingress_controller_requests
+        {
+            ingress=~"$ingress",
+            status!~"[4-5].*"
+        }[1m])) by (ingress) /
+sum(
+    rate(
+        nginx_ingress_controller_requests
+        {
+            ingress=~"$ingress"
+        }[1m])) by (ingress)
+# {{ingress}}
