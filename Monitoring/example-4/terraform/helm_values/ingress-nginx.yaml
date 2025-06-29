@@ -1,0 +1,33 @@
+---
+controller:
+  ingressClassResource:
+    name: external-nginx
+    enabled: true
+  replicaCount: 1
+  config:
+    use-proxy-protocol: "true"          # (optional) Used for NLB proxy protocol (to get client ip)
+    use-forwarded-headers: "true"       # (optional) Allows nginx to trust X-Forwarded-* headers from outside
+    compute-full-forwarded-for: "true"  # (optional) Builds a full chain of IP addresses in X-Forwarded-For
+    proxy-body-size: "0"                # (optional) Disables body size limit
+  service:
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-type: external
+      service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+      service.beta.kubernetes.io/aws-load-balancer-target-group-attributes: deregistration_delay.timeout_seconds=270
+      service.beta.kubernetes.io/aws-load-balancer-healthcheck-path: /healthz
+      service.beta.kubernetes.io/aws-load-balancer-healthcheck-port: "80"
+      service.beta.kubernetes.io/aws-load-balancer-healthcheck-protocol: http
+      service.beta.kubernetes.io/aws-load-balancer-healthcheck-success-codes: 200-299
+      service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+      service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
+  topologySpreadConstraints:
+  - maxSkew: 1   # 1 | 2 | 3
+    topologyKey: kubernetes.io/hostname
+    whenUnsatisfiable: ScheduleAnyway # DoNotSchedule | ScheduleAnyway
+    matchLabelKeys:
+    - pod-template-hash
+    labelSelector:
+      matchLabels:
+        app.kubernetes.io/name: '{{ include "ingress-nginx.name" . }}'
+        app.kubernetes.io/instance: '{{ .Release.Name }}'
+        app.kubernetes.io/component: controller

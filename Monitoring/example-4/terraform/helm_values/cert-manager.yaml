@@ -1,0 +1,10 @@
+---
+installCRDs: true
+prometheus:
+  enabled: true
+  servicemonitor:
+    enabled: true
+    namespace: monitoring
+    prometheusInstance: main
+serviceAccount:
+  name: cert-manager # (optional) Used for the DNS01 challenge
