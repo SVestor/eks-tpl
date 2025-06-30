@@ -1,0 +1,25 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: api-svestor-link
+  namespace: staging
+spec:
+  isCA: false
+  duration: 2160h              # will be valid for 90d in total 
+  renewBefore: 360h            # will be renewed 15d before expiration (every 75d)
+  commonName: api.svestor.link
+  dnsNames:
+  - api.svestor.link
+  - www.api.svestor.link
+  - api.staging.svestor.link
+  - www.api.staging.svestor.link
+  secretName: api-svestor-link-key-pair
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS1
+    size: 4096
+  issuerRef:
+    name: svestor-link-ca
+    kind: ClusterIssuer
+    group: cert-manager.io
