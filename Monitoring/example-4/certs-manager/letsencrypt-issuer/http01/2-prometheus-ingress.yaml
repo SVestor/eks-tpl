@@ -5,7 +5,7 @@ metadata:
   name: prometheus
   namespace: monitoring
   annotations:
-    cert-manager.io/cluster-issuer: le-http01-prod
+    cert-manager.io/issuer: le-http01-prod
 spec:
   ingressClassName: external-nginx
   rules:
