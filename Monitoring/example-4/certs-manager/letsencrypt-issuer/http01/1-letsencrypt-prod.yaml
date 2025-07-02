@@ -1,0 +1,16 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: le-http01-prod
+  namespace: monitoring
+spec:
+  acme:
+    email: security@svestor.link
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: le-http01-prod-tls
+    solvers:
+      - http01:
+          ingress:
+            ingressClassName: external-nginx
