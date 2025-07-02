@@ -1,0 +1,25 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: prometheus
+  namespace: monitoring
+  annotations:
+    cert-manager.io/cluster-issuer: le-http01-prod
+spec:
+  ingressClassName: external-nginx
+  rules:
+    - host: prometheus.svestor.link
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: prometheus-operated
+                port:
+                  number: 9090
+  tls:
+    - hosts:
+        - prometheus.svestor.link
+      secretName: prometheus-svestor-link-tls
