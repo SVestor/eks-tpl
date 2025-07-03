@@ -1,0 +1,15 @@
+{
+  "CN": "api.svestor.link",
+  "hosts": [
+      "api.svestor.link"
+  ],
+  "names": [
+      {
+          "C": "US",
+          "L": "San Francisco",
+          "O": "SVestor",
+          "OU": "Production API",
+          "ST": "California"
+      }
+  ]
+}
