@@ -1,4 +1,4 @@
-data "helm_template" "cert-manager" {
+data "helm_template" "cert_manager" {
   name = "cert-manager"
 
   repository       = "https://charts.jetstack.io"
@@ -6,6 +6,7 @@ data "helm_template" "cert-manager" {
   version          = "v1.17.2"
   namespace        = "cert-manager"
   create_namespace = true
+  kube_version     = local.eks_cluster_version
 
   values = [
     file("${path.module}/helm_values/cert-manager.yaml")
@@ -26,10 +27,9 @@ data "helm_template" "cert-manager" {
   }
 }
 
-resource "local_file" "cert-manager_manifests" {
-  for_each = data.helm_template.cert-manager.manifests
+resource "local_file" "cert_manager_manifests" {
+  for_each = data.helm_template.cert_manager.manifests
 
-  filename = "target/${each.key}"
+  filename = "${path.module}/../cert-manager-manifests/${each.key}"
   content  = each.value
 }
-
