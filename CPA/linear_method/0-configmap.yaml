@@ -1,0 +1,16 @@
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: nginx-autoscaler
+  namespace: default
+data:
+  linear: |-
+    {
+      "coresPerReplica": 3.5,
+      "nodesPerReplica": 2.5,
+      "min": 2,
+      "max": 20,
+      "preventSinglePointFailure": true,
+      "includeUnschedulableNodes": false
+    }
