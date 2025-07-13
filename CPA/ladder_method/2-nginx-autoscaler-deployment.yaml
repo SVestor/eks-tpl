@@ -1,0 +1,36 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-autoscaler
+  namespace: default
+  labels:
+    app: autoscaler
+spec:
+  selector:
+    matchLabels:
+      app: autoscaler
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: autoscaler
+    spec:
+      serviceAccountName: cluster-proportional-autoscaler
+      containers:
+        - image: registry.k8s.io/cpa/cluster-proportional-autoscaler:v1.8.9
+          name: autoscaler
+          command:
+            - /cluster-proportional-autoscaler
+            - --namespace=default
+            - --configmap=nginx-autoscaler
+            - --target=deployment/nginx-autoscale-example
+            - --logtostderr=true
+            - --v=2
+          resources:
+            requests:
+              cpu: 100m
+              memory: 150Mi
+            limits:
+              cpu: 200m
+              memory: 250Mi

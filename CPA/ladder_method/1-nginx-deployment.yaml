@@ -1,0 +1,28 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-autoscale-example 
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      run: nginx-autoscale-example
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: nginx-autoscale-example
+    spec:
+      containers:
+      - name: nginx-autoscale-example
+        image: nginx
+        ports:
+        - containerPort: 80
+        resources:
+          requests:
+            cpu: 100m
+            memory: 150Mi
+          limits:
+            cpu: 200m
+            memory: 250Mi
