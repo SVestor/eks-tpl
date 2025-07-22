@@ -3,7 +3,7 @@ locals {
   region              = "us-east-1"
   terraform           = "true"
   eks_cluster_name    = "core-eks"
-  eks_cluster_version = "1.31"
+  eks_cluster_version = "1.33"
 }
 
 locals {
