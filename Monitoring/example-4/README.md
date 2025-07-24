@@ -1,81 +1,133 @@
-## Cert Manager | EKS | NLB | Nginx Ingress | Let's Encrypt | Grafana | Prometheus | K8s
+# EKS Monitoring Stack with Cert Manager, NLB, Nginx Ingress, Let's Encrypt, Grafana, and Prometheus
 
-### Update kubeconfig
+This repository contains Terraform configurations and Kubernetes manifests to deploy a comprehensive monitoring stack on Amazon EKS (Elastic Kubernetes Service). The setup includes:
 
-```bash
-aws eks update-kubeconfig \
-  --profile cloud-user \
-  --region us-east-1 \
-  --alias cloud_user@core-eks-dev \
-  --name core-eks-dev
-```
-### Deploy prometheus stack
+- **Cert Manager**: For managing TLS certificates
+- **AWS Network Load Balancer (NLB)**: For exposing services
+- **Nginx Ingress Controller**: For managing ingress traffic
+- **Let's Encrypt**: For automatic SSL certificate provisioning
+- **Grafana**: For visualization and dashboards
+- **Prometheus**: For metrics collection and monitoring
+- **Kubernetes**: The underlying container orchestration platform
 
-```bash
-kubectl apply -f namespace.yaml # Already created by terraform
-kubectl apply -f storage/storageclass.yaml # Already created by terraform
-kubectl apply --server-side -f prometheus-operator/crds/
-kubectl apply -f prometheus-operator/rbac/
-kubectl apply -f prometheus-operator/prometheus-operator-deployment/
-kubectl apply -f prometheus/
-```
+## Prerequisites
 
-### Check prometheus operator logs
+- AWS CLI configured with appropriate permissions
+- `kubectl` installed and configured
+- `helm` installed
+- Terraform >= 1.0.0
+- An existing EKS cluster (or modify the Terraform to create one)
 
-```bash
-kubectl logs -l app.kubernetes.io/name=prometheus-operator -n monitoring -f
-```
-```bash
-kubectl logs -l app.kubernetes.io/name=prometheus -n monitoring -f
-```
-```bash
-kubectl port-forward svc/prometheus-operated 9090:9090 -n monitoring &
-http://localhost:9090
-```
+## Architecture
 
-### Deploy monitoring resources
-```bash
-kubectl apply -f cadvisor/
-kubectl apply -f kube-state-metrics/
-kubectl apply -f ingress-nginx/service-monitor.yaml
 ```
-### Build app [server/client]
-```bash
-./build-server.sh
-./build-client.sh
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│                 │     │                 │     │                 │
+│   Prometheus    │◄────┤   Nginx Ingress │◄────│       NLB       │
+│                 │     │                 │     │                 │
+└────────┬────────┘     └────────┬────────┘     └─────────────────┘
+         │                       │
+         │                       │
+┌────────▼───────┐     ┌────────▼────────┐
+│                │     │                 │
+│    Grafana     │     │  Applications   │
+│                │     │                 │
+└────────────────┘     └─────────────────┘
 ```
 
-### Deploy server app
+## Components
+
+### Cert Manager
+Manages TLS certificates automatically using Let's Encrypt. Certificates are automatically renewed before they expire.
+
+### AWS NLB
+Provides network load balancing for the EKS cluster, routing traffic to the appropriate services.
+
+### Nginx Ingress Controller
+Manages external access to services in the cluster, typically HTTP/HTTPS.
+
+### Let's Encrypt
+Provides free TLS certificates through the ACME protocol, automated by Cert Manager.
+
+### Grafana
+Visualization platform for all your metrics with pre-configured dashboards for Kubernetes monitoring.
+
+### Prometheus
+Monitors and collects metrics from the Kubernetes cluster and applications.
+
+## Deployment
+
+### 1. Clone the repository
 ```bash
-kubectl apply -f app/deploy/
+git clone <repository-url>
+cd eks-monitoring-stack
 ```
 
-### Check server logs
+### 2. Initialize Terraform
 ```bash
-kubectl logs -l app=gin-server -n staging -f
+terraform init
 ```
 
-### Deploy grafana with helm example (the current deployment uses terraform helm provider)
-```bash
-# Grafana is already deployed by terraform
-helm repo add grafana https://grafana.github.io/helm-charts
-helm repo update
-helm search repo grafana
-helm show values grafana/grafana --version 9.2.2
-helm show values grafana/grafana --version 9.2.2 > grafana-values.yaml
-helm install grafana grafana/grafana --version 9.2.2 -n grafana
-helm upgrade grafana grafana/grafana -f grafana-values.yaml -n grafana
+### 3. Review and update variables
+Edit `terraform.tfvars` to match your configuration:
+
+```hcl
+cluster_name     = "your-eks-cluster-name"
+region          = "us-west-2"
+domain_name     = "example.com"
+email           = "admin@example.com"
 ```
 
-### Check grafana logs
+### 4. Apply the configuration
 ```bash
-kubectl logs -l app.kubernetes.io/name=grafana -n grafana -f
-```
-```bash
-kubectl port-forward svc/grafana 3000:80 -n grafana &
+terraform apply
 ```
 
-### Check grafana dashboard
+## Accessing the Dashboards
+
+### Grafana
+After deployment, Grafana will be available at:
+```
+https://grafana.your-domain.com
+```
+Default credentials:
+- Username: admin
+- Password: (check the Kubernetes secret)
+
+### Prometheus
+Prometheus UI is available at:
+```
+https://prometheus.your-domain.com
+```
+
+## Maintenance
+
+### Upgrading Components
+To upgrade any component, update the corresponding Helm chart version in the Terraform configuration and run:
+
 ```bash
-http://localhost:3000
+terraform apply
+```
+
+### Monitoring Alerts
+Pre-configured alerts are available in the `alerts/` directory. These can be customized as needed.
+
+## Troubleshooting
+
+Common issues and their solutions:
+
+1. **Certificate not issued**
+   - Check Cert Manager logs: `kubectl logs -n cert-manager -l app=cert-manager`
+   - Verify DNS records are properly configured
+
+2. **Ingress not working**
+   - Check Nginx Ingress Controller logs
+   - Verify AWS NLB target groups are healthy
+
+## Cleanup
+
+To remove all resources:
+
+```bash
+terraform destroy
 ```
